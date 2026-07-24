@@ -35,5 +35,5 @@ app:
     expiration-ms: 86400000
   exchange:
     api-url: https://openexchangerates.org/api
-    app-id: ${OPEN_EXCHANGE_APP_ID}
+    app-id: 63a8065d6e5341498657feb5424aceb8
     cache-ttl-minutes: 30
