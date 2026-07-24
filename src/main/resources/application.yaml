@@ -37,3 +37,4 @@ app:
     api-url: https://openexchangerates.org/api
     app-id: 63a8065d6e5341498657feb5424aceb8
     cache-ttl-minutes: 30
+    scheduler-interval-ms: 1800000
