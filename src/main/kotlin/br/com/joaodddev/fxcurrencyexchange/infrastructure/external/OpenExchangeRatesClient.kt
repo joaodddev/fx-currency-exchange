@@ -1,9 +1,9 @@
 package br.com.joaodddev.fxcurrencyexchange.infrastructure.external
 
-import br.com.joaodddev.fxcurrencyexchange.infrastructure.external.dto.OpenExchangeCurrenciesResponse
 import br.com.joaodddev.fxcurrencyexchange.infrastructure.external.dto.OpenExchangeRatesResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.RestClientException
@@ -31,13 +31,13 @@ class OpenExchangeRatesClient(
         }
     }
 
-    fun fetchSupportedCurrencies(): OpenExchangeCurrenciesResponse {
+    fun fetchSupportedCurrencies(): Map<String, String> {
         log.info("Fetching supported currencies from OpenExchangeRates")
         return try {
             restClient.get()
                 .uri("$apiUrl/currencies.json?app_id=$appId")
                 .retrieve()
-                .body(OpenExchangeCurrenciesResponse::class.java)
+                .body(object : ParameterizedTypeReference<Map<String, String>>() {})
                 ?: emptyMap()
         } catch (ex: RestClientException) {
             log.error("Failed to fetch currencies: ${ex.message}")
