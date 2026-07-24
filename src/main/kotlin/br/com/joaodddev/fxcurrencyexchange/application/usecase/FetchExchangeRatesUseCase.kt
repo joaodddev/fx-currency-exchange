@@ -2,6 +2,7 @@ package br.com.joaodddev.fxcurrencyexchange.application.usecase
 
 import br.com.joaodddev.fxcurrencyexchange.domain.entity.ExchangeRate
 import br.com.joaodddev.fxcurrencyexchange.domain.repository.ExchangeRateRepository
+import br.com.joaodddev.fxcurrencyexchange.infrastructure.cache.ExchangeRateCacheService
 import br.com.joaodddev.fxcurrencyexchange.infrastructure.external.OpenExchangeRatesClient
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -11,7 +12,8 @@ import java.time.LocalDateTime
 @Service
 class FetchExchangeRatesUseCase(
     private val client: OpenExchangeRatesClient,
-    private val exchangeRateRepository: ExchangeRateRepository
+    private val exchangeRateRepository: ExchangeRateRepository,
+    private val cacheService: ExchangeRateCacheService
 ) {
 
     private val log = LoggerFactory.getLogger(javaClass)
@@ -45,7 +47,10 @@ class FetchExchangeRatesUseCase(
         }
 
         exchangeRateRepository.saveAll(rates)
-        log.info("Persisted ${rates.size} exchange rates")
+
+        cacheService.cacheAllRates(response.rates)
+        log.info("Persisted and cached ${rates.size} exchange rates")
+
         return rates.size
     }
 }
