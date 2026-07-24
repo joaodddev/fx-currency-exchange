@@ -31,7 +31,7 @@ server:
 
 app:
   jwt:
-    secret: 4fK9mZ2pL7qR1sT6wY3xB8nC0dE5hG
+    secret: 4fK9mZ2pL7qR1sT6wY3xB8nC0dE5hG00
     expiration-ms: 86400000
   exchange:
     api-url: https://openexchangerates.org/api
